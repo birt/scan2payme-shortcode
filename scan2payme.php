@@ -54,11 +54,6 @@ if (
     register_deactivation_hook( __FILE__, 'scan2payme_extension_deactivate' );
 
     function scan2payme_extension_action1() {
-        // (1) get current order
-        // (2) check in barcode store if barcode for order already exists
-        // (2a) if not, create barcode and store in barcode store
-        // (3) display barcode
-
         $order_id = absint( get_query_var('view-order') );
         $order = new WC_Order($order_id);
         $oid = $order->get_order_number();
@@ -67,7 +62,10 @@ if (
         $order_status = $order->get_status();
         $option_payment_method = get_option('scan2payme_option_showwhenmethod');
         $option_order_status = get_option('scan2payme_option_showwhenstatus');
+        $option_textabove = get_option('scan2payme_option_textabove');
+        $option_textunder = get_option('scan2payme_option_textunder');
 
+        
         if($option_payment_method !== $payment_method)
         {
             return; // do not show for this payment method
@@ -96,9 +94,23 @@ if (
         }
 
         $qrdata = "BCD".PHP_EOL.$epc_version.PHP_EOL.$epc_encoding.PHP_EOL.$epc_identity.PHP_EOL.$epc_bic.PHP_EOL.$epc_name.PHP_EOL.$epc_iban.PHP_EOL.$epc_total.PHP_EOL.$epc_use.PHP_EOL.$epc_ref.PHP_EOL.$epc_textref.PHP_EOL.$epc_hint;
-
-        // quick and simple:
-        echo '<img src="'.(new QRCode)->render($qrdata).'" alt="'.$qrdata.'" />';
+        $text_under_display = "";
+        if(strlen($option_textunder) > 0){
+            $text_under_display = htmlentities($option_textunder);
+        }
+        $text_above_display = "";
+        if(strlen($option_textabove) > 0){
+            $text_above_display = htmlentities($option_textabove);
+        }
+?>
+<section class="woocommerce-columns woocommerce-columns--1">
+		<div class="woocommerce-column woocommerce-column--1 col-1">
+            <span style="display:block;text-align:center;"><?php echo $text_above_display; ?></span>
+            <img style="display:block;margin:auto;" src="<?php echo (new QRCode)->render($qrdata); ?>" alt="<?php echo $qrdata; ?>" />
+            <span style="display:block;text-align:center;"><?php echo $text_under_display; ?></span>
+		</div><!-- /.col-1 -->
+</section>
+<?php
     }
     
     add_action( 'woocommerce_after_order_details', 'scan2payme_extension_action1' ); 

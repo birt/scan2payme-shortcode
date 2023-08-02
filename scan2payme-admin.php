@@ -33,15 +33,22 @@ function scan2payme_extension_settings_init() {
     register_setting( 'scan2payme', 'scan2payme_option_IBAN' );
 
     $showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
+    //$showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenstatus', $showwhenstatus_args ); // default: on-hold
 
     $showwhenmethod_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenmethod', 'default' => 'bacs' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenmethod', $showwhenmethod_args ); // default: bacs
 
+    $textabove_args = array( 'type' => 'string', 'default' => 'Scan2Pay Me' );
+    register_setting( 'scan2payme', 'scan2payme_option_textabove', $textabove_args);
+    $textunder_args = array( 'type' => 'string', 'default' => 'Scan this QR code with your banking app to initiate a bank transfer.' );
+    register_setting( 'scan2payme', 'scan2payme_option_textunder', $textunder_args);
+    register_setting( 'scan2payme', 'scan2payme_option_logo');
+
     // Register a new section in the page.
     add_settings_section(
         'scan2payme_section_requiredfields',
-        __( 'Required fields', 'scan2payme' ), 'scan2payme_section_requiredfields_callback',
+        __( 'Scan2Pay Me required fields', 'scan2payme' ), 'scan2payme_section_requiredfields_callback',
         'scan2payme'
     );
 
@@ -111,20 +118,69 @@ function scan2payme_extension_settings_init() {
             'scan2payme_custom_data' => 'custom',
         )
     );
+
+    // Register a new section in the page.
+    add_settings_section(
+        'scan2payme_section_optionalfields',
+        __( 'Scan2Pay Me optional fields', 'scan2payme' ), 'scan2payme_section_optionalfields_callback',
+        'scan2payme'
+    );
+
+
+    add_settings_field(
+        'scan2payme_option_textabove',
+            __( 'textabove', 'scan2payme' ),
+        'scan2payme_option_textabove_cb',
+        'scan2payme',
+        'scan2payme_section_optionalfields',
+        array(
+            'label_for'         => 'scan2payme_option_textabove',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
+    );
+
+    add_settings_field(
+        'scan2payme_option_textunder',
+            __( 'textunder', 'scan2payme' ),
+        'scan2payme_option_textunder_cb',
+        'scan2payme',
+        'scan2payme_section_optionalfields',
+        array(
+            'label_for'         => 'scan2payme_option_textunder',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
+    );
+
+    add_settings_field(
+        'scan2payme_option_logo',
+            __( 'logo', 'scan2payme' ),
+        'scan2payme_option_logo_cb',
+        'scan2payme',
+        'scan2payme_section_optionalfields',
+        array(
+            'label_for'         => 'scan2payme_option_logo',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
+    );
 }
 /**
  * Register our cec_settings_init to the admin_init action hook.
  */
 add_action( 'admin_init', 'scan2payme_extension_settings_init' );
 
-/**
- * Developers section callback function.
- *
- * @param array $args  The settings array, defining title, id, callback.
- */
+
 function scan2payme_section_requiredfields_callback( $args ) {
     ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Required fields', 'scan2payme' ); ?></p>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'There is no validation implemented yet!', 'scan2payme' ); ?></p>
+    <?php
+}
+
+function scan2payme_section_optionalfields_callback( $args ) {
+    ?>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Optional fields. Provide your users with information about how you want them to use the code.', 'scan2payme' ); ?></p>
     <?php
 }
 
@@ -165,6 +221,30 @@ function scan2payme_option_showwhenmethod_cb( $args ) {
     $options = get_option( 'scan2payme_option_showwhenmethod' );
     ?>
     <input type="text" name="scan2payme_option_showwhenmethod" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <?php
+}
+
+function scan2payme_option_textunder_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_textunder' );
+    ?>
+    <input type="text" name="scan2payme_option_textunder" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <?php
+}
+
+function scan2payme_option_textabove_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_textabove' );
+    ?>
+    <input type="text" name="scan2payme_option_textabove" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <?php
+}
+
+function scan2payme_option_logo_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_logo' );
+    ?>
+    <input type="text" name="scan2payme_option_logo" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
     <?php
 }
 
