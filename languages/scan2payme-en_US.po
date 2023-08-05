@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Scan2Pay Me\n"
+"POT-Creation-Date: 2023-08-03 19:22+0200\n"
+"PO-Revision-Date: 2023-08-03 19:23+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: scan2payme.php\n"
+"X-Poedit-SearchPath-1: scan2payme-admin.php\n"
+
+#: scan2payme-admin.php:51
+msgid "Scan2Pay Me required fields"
+msgstr "Scan2Pay Me required fields"
+
+#: scan2payme-admin.php:59
+msgid "BIC"
+msgstr "BIC"
+
+#: scan2payme-admin.php:72
+msgid "Name"
+msgstr "Name"
+
+#: scan2payme-admin.php:85
+msgid "IBAN"
+msgstr "IBAN"
+
+#: scan2payme-admin.php:98
+msgid "Show when order is in status"
+msgstr "Show when order is in status"
+
+#: scan2payme-admin.php:111
+msgid "Show when method is"
+msgstr "Show when method is"
+
+#: scan2payme-admin.php:125
+msgid "Scan2Pay Me optional fields"
+msgstr "Scan2Pay Me optional fields"
+
+#: scan2payme-admin.php:132
+msgid "textabove"
+msgstr "textabove"
+
+#: scan2payme-admin.php:145
+msgid "textunder"
+msgstr "textunder"
+
+#: scan2payme-admin.php:158
+msgid "logo"
+msgstr "logo"
+
+#: scan2payme-admin.php:177
+msgid "There is no validation implemented yet!"
+msgstr "There is no validation implemented yet!"
+
+#: scan2payme-admin.php:183
+msgid ""
+"Optional fields. Provide your users with information about how you want them "
+"to use the code."
+msgstr ""
+"Optional fields. Provide your users with information about how you want them "
+"to use the code."
+
+#: scan2payme-admin.php:264
+msgid "Settings Saved"
+msgstr "Settings Saved"

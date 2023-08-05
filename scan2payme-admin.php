@@ -15,8 +15,55 @@ function scan2payme_extension_options_page() {
 }
 add_action( 'admin_menu', 'scan2payme_extension_options_page' );
 
+function scan2payme_option_sanitize_IBAN($input){
+    $input = strtoupper($input);
+    $old = get_option( 'scan2payme_option_IBAN' );
+    $valid = true;
+    if (strlen($input) > 34){
+        $valid = false;
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('IBAN invalid! Must be shorter than 34 symbols!', 'scan2payme'), 'error');
+    }
+
+    if(is_numeric(substr($input, 0, 1)) || is_numeric(substr($input, 1, 1))){
+        $valid = false;
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('IBAN invalid! First two symbol must be country identifier!', 'scan2payme'), 'error');
+    }
+
+    $bban = substr($input, 2);
+    for($i = 0; $i < strlen($bban); $i++){
+        if(!is_numeric(substr($bban, $i, 1))){
+            $valid = false;
+            add_settings_error('scan2payme_messages', 'scan2payme_message', __('IBAN invalid! Account part can only contain numbers!', 'scan2payme'), 'error');
+            $i = strlen($bban); // abort, no need to check the rest
+        }
+    }
+
+    if(!$valid){
+        return $old;
+    } else {
+        return $input;
+    }
+}
+
+function scan2payme_option_sanitize_BIC($input){
+    $input = strtoupper($input);
+    $old = get_option( 'scan2payme_option_BIC' );
+    $valid = true;
+
+    if(strlen($input) != 8 && strlen($input) != 11){
+        $valid = false;
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('BIC invalid! Must be 8 or 11 symbols long!', 'scan2payme'), 'error');
+    }
+
+    if(!$valid){
+        return $old;
+    } else {
+        return $input;
+    }
+}
+
 function scan2payme_option_sanitize_showwhenstatus($input){
-    return $input; // TODO
+    return $input;
 }
 
 function scan2payme_option_sanitize_showwhenmethod($input){
@@ -28,9 +75,11 @@ function scan2payme_option_sanitize_showwhenmethod($input){
  */
 function scan2payme_extension_settings_init() {
     // Register a new setting for page.
-    register_setting( 'scan2payme', 'scan2payme_option_BIC' );
+    $bic_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_BIC');
+    register_setting( 'scan2payme', 'scan2payme_option_BIC', $bic_args );
     register_setting( 'scan2payme', 'scan2payme_option_Name' );
-    register_setting( 'scan2payme', 'scan2payme_option_IBAN' );
+    $iban_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_IBAN');
+    register_setting( 'scan2payme', 'scan2payme_option_IBAN', $iban_args );
 
     $showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
     //$showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
@@ -212,7 +261,10 @@ function scan2payme_option_showwhenstatus_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $options = get_option( 'scan2payme_option_showwhenstatus' );
     ?>
-    <input type="text" name="scan2payme_option_showwhenstatus" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <select name="scan2payme_option_showwhenstatus">
+        <option value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>"><?php echo isset( $options ) ? esc_attr( $options ) : ''; ?></option>
+    </select>
+    
     <?php
 }
 
@@ -220,7 +272,10 @@ function scan2payme_option_showwhenmethod_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $options = get_option( 'scan2payme_option_showwhenmethod' );
     ?>
-    <input type="text" name="scan2payme_option_showwhenmethod" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <select name="scan2payme_option_showwhenmethod">
+        <option value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>"><?php echo isset( $options ) ? esc_attr( $options ) : ''; ?></option>
+    </select>
+    
     <?php
 }
 

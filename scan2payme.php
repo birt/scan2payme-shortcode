@@ -20,9 +20,9 @@ along with scan2payme. If not, see {URI to Plugin License}.
  * Author: Andreas Waldherr
  * Author URI: 
  * Text Domain: scan2payme
- * Domain Path: 
+ * Domain Path: /languages/
  * Requires at least: 6.0
- * Requires PHP: 7.3
+ * Requires PHP: 8.0
  *
  * @package SCAN2PAYME
  */
@@ -43,6 +43,7 @@ if (
     || in_array( $plugin_path, wp_get_active_network_plugins() )
 ) {
     // wocommerce active
+
     function scan2payme_extension_activate() {
         // Your activation logic goes here.
     }
@@ -52,6 +53,11 @@ if (
         // Your deactivation logic goes here.
     }
     register_deactivation_hook( __FILE__, 'scan2payme_extension_deactivate' );
+
+    add_action( 'plugins_loaded', 'scan2payme_plugin_load_text_domain' );
+    function scan2payme_plugin_load_text_domain() {
+        load_plugin_textdomain( 'scan2payme', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+    }
 
     function scan2payme_extension_action1() {
         $order_id = absint( get_query_var('view-order') );
