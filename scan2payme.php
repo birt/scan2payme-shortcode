@@ -1,4 +1,5 @@
 <?php
+namespace scan2payme;
 /*
 scan2payme is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,6 +29,17 @@ along with scan2payme. If not, see {URI to Plugin License}.
  */
 defined( 'ABSPATH' ) || exit;
 
+class Logo{
+    public $post_id;
+    public $name;
+    public function __construct($post_id, $name)
+    {
+        $this->post_id = $post_id;
+        $this->name = $name;
+    }
+
+}
+
 if ( ! defined( 'SCAN2PAYME_PLUGIN_FILE' ) ) {
 	define( 'SCAN2PAYME_PLUGIN_FILE', __FILE__ );
 }
@@ -47,14 +59,14 @@ if (
     function scan2payme_extension_activate() {
         // Your activation logic goes here.
     }
-    register_activation_hook( __FILE__, 'scan2payme_extension_activate' );
+    register_activation_hook( __FILE__, 'scan2payme\scan2payme_extension_activate' );
 
     function scan2payme_extension_deactivate() {
         // Your deactivation logic goes here.
     }
-    register_deactivation_hook( __FILE__, 'scan2payme_extension_deactivate' );
+    register_deactivation_hook( __FILE__, 'scan2payme\scan2payme_extension_deactivate' );
 
-    add_action( 'plugins_loaded', 'scan2payme_plugin_load_text_domain' );
+    add_action( 'plugins_loaded', 'scan2payme\scan2payme_plugin_load_text_domain' );
     function scan2payme_plugin_load_text_domain() {
         load_plugin_textdomain( 'scan2payme', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
@@ -119,7 +131,7 @@ if (
 <?php
     }
     
-    add_action( 'woocommerce_after_order_details', 'scan2payme_extension_action1' ); 
+    add_action( 'woocommerce_after_order_details', 'scan2payme\scan2payme_extension_action1' ); 
 
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
 }

@@ -1,4 +1,5 @@
 <?php
+namespace scan2payme;
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -10,10 +11,10 @@ function scan2payme_extension_options_page() {
         'Scan2PayMe',
         'manage_options',
         'scan2payme',
-        'scan2payme_extension_options_page_html'
+        'scan2payme\scan2payme_extension_options_page_html'
     );
 }
-add_action( 'admin_menu', 'scan2payme_extension_options_page' );
+add_action( 'admin_menu', 'scan2payme\scan2payme_extension_options_page' );
 
 function scan2payme_option_sanitize_IBAN($input){
     $input = strtoupper($input);
@@ -75,17 +76,17 @@ function scan2payme_option_sanitize_showwhenmethod($input){
  */
 function scan2payme_extension_settings_init() {
     // Register a new setting for page.
-    $bic_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_BIC');
+    $bic_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_BIC');
     register_setting( 'scan2payme', 'scan2payme_option_BIC', $bic_args );
     register_setting( 'scan2payme', 'scan2payme_option_Name' );
-    $iban_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_IBAN');
+    $iban_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_IBAN');
     register_setting( 'scan2payme', 'scan2payme_option_IBAN', $iban_args );
 
-    $showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
+    $showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
     //$showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenstatus', $showwhenstatus_args ); // default: on-hold
 
-    $showwhenmethod_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenmethod', 'default' => 'bacs' );
+    $showwhenmethod_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showwhenmethod', 'default' => 'bacs' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenmethod', $showwhenmethod_args ); // default: bacs
 
     $textabove_args = array( 'type' => 'string', 'default' => 'Scan2Pay Me' );
@@ -97,7 +98,7 @@ function scan2payme_extension_settings_init() {
     // Register a new section in the page.
     add_settings_section(
         'scan2payme_section_requiredfields',
-        __( 'Scan2Pay Me required fields', 'scan2payme' ), 'scan2payme_section_requiredfields_callback',
+        __( 'Scan2Pay Me required fields', 'scan2payme' ), 'scan2payme\scan2payme_section_requiredfields_callback',
         'scan2payme'
     );
 
@@ -106,7 +107,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_BIC',
             __( 'BIC', 'scan2payme' ),
-        'scan2payme_option_BIC_cb',
+        'scan2payme\scan2payme_option_BIC_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',
         array(
@@ -119,7 +120,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_Name',
             __( 'Name', 'scan2payme' ),
-        'scan2payme_option_Name_cb',
+        'scan2payme\scan2payme_option_Name_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',
         array(
@@ -132,7 +133,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_IBAN',
             __( 'IBAN', 'scan2payme' ),
-        'scan2payme_option_IBAN_cb',
+        'scan2payme\scan2payme_option_IBAN_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',
         array(
@@ -145,7 +146,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_showwhenstatus',
             __( 'Show when order is in status', 'scan2payme' ),
-        'scan2payme_option_showwhenstatus_cb',
+        'scan2payme\scan2payme_option_showwhenstatus_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',
         array(
@@ -158,7 +159,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_showwhenmethod',
             __( 'Show when method is', 'scan2payme' ),
-        'scan2payme_option_showwhenmethod_cb',
+        'scan2payme\scan2payme_option_showwhenmethod_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',
         array(
@@ -171,7 +172,7 @@ function scan2payme_extension_settings_init() {
     // Register a new section in the page.
     add_settings_section(
         'scan2payme_section_optionalfields',
-        __( 'Scan2Pay Me optional fields', 'scan2payme' ), 'scan2payme_section_optionalfields_callback',
+        __( 'Scan2Pay Me optional fields', 'scan2payme' ), 'scan2payme\scan2payme_section_optionalfields_callback',
         'scan2payme'
     );
 
@@ -179,7 +180,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_textabove',
             __( 'textabove', 'scan2payme' ),
-        'scan2payme_option_textabove_cb',
+        'scan2payme\scan2payme_option_textabove_cb',
         'scan2payme',
         'scan2payme_section_optionalfields',
         array(
@@ -192,7 +193,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_textunder',
             __( 'textunder', 'scan2payme' ),
-        'scan2payme_option_textunder_cb',
+        'scan2payme\scan2payme_option_textunder_cb',
         'scan2payme',
         'scan2payme_section_optionalfields',
         array(
@@ -205,7 +206,7 @@ function scan2payme_extension_settings_init() {
     add_settings_field(
         'scan2payme_option_logo',
             __( 'logo', 'scan2payme' ),
-        'scan2payme_option_logo_cb',
+        'scan2payme\scan2payme_option_logo_cb',
         'scan2payme',
         'scan2payme_section_optionalfields',
         array(
@@ -218,7 +219,7 @@ function scan2payme_extension_settings_init() {
 /**
  * Register our cec_settings_init to the admin_init action hook.
  */
-add_action( 'admin_init', 'scan2payme_extension_settings_init' );
+add_action( 'admin_init', 'scan2payme\scan2payme_extension_settings_init' );
 
 
 function scan2payme_section_requiredfields_callback( $args ) {
@@ -297,15 +298,35 @@ function scan2payme_option_textabove_cb( $args ) {
 
 function scan2payme_option_logo_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
-    $options = get_option( 'scan2payme_option_logo' );
+    $logos = scan2payme_get_available_logos();
+    $option_logo_id = get_option( 'scan2payme_option_logo' );
+    $selectedLogo = null;
+    if(isset($option_logo_id)) {
+        foreach ( $logos as $logo ) {
+            if ( $option_logo_id == $logo->post_id ) {
+                $selectedLogo = $logo;
+            }
+        }
+    }
+
+    // delete the option if it is not available anymore.
+    if($selectedLogo == null){
+        $updated = update_option('scan2payme_option_logo', null);
+    }
     ?>
-    <input type="text" name="scan2payme_option_logo" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <select name="scan2payme_option_logo">
+        <?php if($selectedLogo !== null){ ?>
+        <option value="<?php echo esc_attr( $selectedLogo->post_id ); ?>"><?php echo esc_attr( $selectedLogo->name ); ?></option>
+        <?php } ?>
+
+        <?php foreach($logos as $logo){ ?>
+        <option value="<?php echo esc_attr( $logo->post_id ); ?>"><?php echo esc_attr( $logo->name ); ?></option>
+        <?php } ?>
+        
+    </select>
     <?php
 }
 
-/**
- * Top level menu callback function
- */
 function scan2payme_extension_options_page_html() {
     // check user capabilities
     if ( ! current_user_can( 'manage_options' ) ) {
@@ -336,4 +357,23 @@ function scan2payme_extension_options_page_html() {
         </form>
     </div>
     <?php
+}
+
+function scan2payme_get_available_logos(){
+    $logo_query_args = array(
+        'post_type'      => 'attachment',
+        'post_mime_type' => 'image/png',
+        'post_status'    => 'inherit',
+        'orderby'        => 'post_date',
+        'posts_per_page' =>  30,
+
+    );
+    $logo_query = new \WP_Query( $logo_query_args );
+    $logos = array();
+    if ( $logo_query->have_posts() ) {
+        for($i = 0; $i < count($logo_query->posts); $i++){
+            $logos[] = new Logo($logo_query->posts[$i]->ID, $logo_query->posts[$i]->post_name);
+        }
+    }
+    return $logos;
 }
