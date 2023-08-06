@@ -319,10 +319,11 @@ function scan2payme_option_logo_cb( $args ) {
         <option value="<?php echo esc_attr( $selectedLogo->post_id ); ?>"><?php echo esc_attr( $selectedLogo->name ); ?></option>
         <?php } ?>
 
+        <option value=""><?php echo esc_attr(__('(no logo)', 'scan2payme')); ?></option>
+
         <?php foreach($logos as $logo){ ?>
         <option value="<?php echo esc_attr( $logo->post_id ); ?>"><?php echo esc_attr( $logo->name ); ?></option>
         <?php } ?>
-        
     </select>
     <?php
 }

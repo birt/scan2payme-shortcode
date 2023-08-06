@@ -45,6 +45,8 @@ if ( ! defined( 'SCAN2PAYME_PLUGIN_FILE' ) ) {
 }
 
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+use chillerlan\QRCode\Data\QRDataInterface;
 require_once 'vendor/autoload.php';
 
  // Test to see if WooCommerce is active (including network activated).
@@ -71,9 +73,31 @@ if (
         load_plugin_textdomain( 'scan2payme', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
+    function scan2payme_get_physical_logo_path(){
+        $logo_id = get_option('scan2payme_option_logo');
+        if(!isset($logo_id) || strlen($logo_id) === 0 || !is_numeric($logo_id)){
+            return null;
+        }
+        
+        // second argument circumvents filters.
+        return wp_get_original_image_path($logo_id, true);
+    }
+
+    function calculate_qr_version_for_data($data, $eccLevel){
+        // guestimate the needed level. a upper bound for the length of the encoded data is 16 + 8xstrlen($data).
+        $neededBits = 16+(strlen($data)*8);
+        for($i = 1; $i <= 40; $i++){
+            $maxBits = QRDataInterface::MAX_BITS[$i][QRCode::ECC_MODES[$eccLevel]];
+            if($maxBits > $neededBits){
+                return $i;
+            }
+        }
+        return 40; // 40 is highest possible version
+    }
+
     function scan2payme_extension_action1() {
         $order_id = absint( get_query_var('view-order') );
-        $order = new WC_Order($order_id);
+        $order = new \WC_Order($order_id);
         $oid = $order->get_order_number();
 
         $payment_method = $order->get_payment_method();
@@ -120,11 +144,43 @@ if (
         if(strlen($option_textabove) > 0){
             $text_above_display = htmlentities($option_textabove);
         }
+
+        $plainQRCodeOptions = new QROptions;
+        $plainQRCodeOptions->version          = calculate_qr_version_for_data($qrdata, QRCode::ECC_H);
+        $plainQRCodeOptions->eccLevel         = QRCode::ECC_H;
+        $plainQRCodeOptions->imageBase64      = true;
+        $plainQRCodeOptions->scale            = 5;
+        $plainQRCodeOptions->imageTransparent = false; 
+        $plainQRCode = new QRCode($plainQRCodeOptions);
+        $logo_path = scan2payme_get_physical_logo_path();
+        $logo_qr_created = false;
+        if(isset($logo_path) && strlen($logo_path) > 0){
+            try{
+                // if logo is set, add logo
+                $logoOptions = new QROptions;
+                $logoOptions->version          = calculate_qr_version_for_data($qrdata, QRCode::ECC_H);
+                $logoOptions->eccLevel         = QRCode::ECC_H;
+                $logoOptions->imageBase64      = true;
+                $logoOptions->scale            = 5;
+                $logoOptions->imageTransparent = false; 
+                $logoQRImage = new LogoQRImage($logoOptions, $plainQRCode->getMatrix($qrdata));
+                // TODO make size 13/13 configurable
+                $imgData = $logoQRImage->add_logo_to_qrimage($logo_path, 13, 13);
+                $logo_qr_created = true;
+            }catch(Exception $e){
+                // TODO inform admin somehow. 
+            }
+        }
+
+        // create plain qr if no logo is set or it failed.
+        if(!$logo_qr_created){
+            $imgData = $plainQRCode->render($qrdata);
+        }
 ?>
 <section class="woocommerce-columns woocommerce-columns--1">
 		<div class="woocommerce-column woocommerce-column--1 col-1">
             <span style="display:block;text-align:center;"><?php echo $text_above_display; ?></span>
-            <img style="display:block;margin:auto;" src="<?php echo (new QRCode)->render($qrdata); ?>" alt="<?php echo $qrdata; ?>" />
+            <img style="display:block;margin:auto;" src="<?php echo $imgData; ?>" alt="<?php echo $qrdata; ?>" />
             <span style="display:block;text-align:center;"><?php echo $text_under_display; ?></span>
 		</div><!-- /.col-1 -->
 </section>
@@ -133,6 +189,7 @@ if (
     
     add_action( 'woocommerce_after_order_details', 'scan2payme\scan2payme_extension_action1' ); 
 
+    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/LogoQRImage.php';
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
 }
 
