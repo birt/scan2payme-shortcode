@@ -187,7 +187,8 @@ if (
 <?php
     }
     
-    add_action( 'woocommerce_after_order_details', 'scan2payme\scan2payme_extension_action1' ); 
+    // TODO does the default value work if this is a fresh installation?
+    add_action( get_option('scan2payme_option_showhook'), 'scan2payme\scan2payme_extension_action1' ); 
 
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/LogoQRImage.php';
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';

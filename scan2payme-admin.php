@@ -64,11 +64,36 @@ function scan2payme_option_sanitize_BIC($input){
 }
 
 function scan2payme_option_sanitize_showwhenstatus($input){
-    return $input;
+    $validStatuses = ['on-hold' ];
+    $old = get_option( 'scan2payme_option_showwhenstatus' );
+    if(!in_array($input, $validStatuses)){
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('Selected status invalid!', 'scan2payme'), 'error');
+        return $old;
+    } else {
+        return $input;
+    }
 }
 
 function scan2payme_option_sanitize_showwhenmethod($input){
-    return $input; // TODO 
+    $validHooks = ['bacs'];
+    $old = get_option( 'scan2payme_option_showwhenmethod' );
+    if(!in_array($input, $validHooks)){
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('Selected payment method invalid!', 'scan2payme'), 'error');
+        return $old;
+    } else {
+        return $input;
+    } 
+}
+
+function scan2payme_option_sanitize_showhook($input){
+    $validHooks = ['woocommerce_order_details_after_customer_details', 'woocommerce_order_details_after_order_table', 'woocommerce_order_details_after_order_table_items', 'woocommerce_order_details_before_order_table', 'woocommerce_order_details_before_order_table_items', 'woocommerce_after_order_details'];
+    $old = get_option( 'scan2payme_option_showhook' );
+    if(!in_array($input, $validHooks)){
+        add_settings_error('scan2payme_messages', 'scan2payme_message', __('Selected hook invalid!', 'scan2payme'), 'error');
+        return $old;
+    } else {
+        return $input;
+    }
 }
 
 /**
@@ -82,8 +107,10 @@ function scan2payme_extension_settings_init() {
     $iban_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_IBAN');
     register_setting( 'scan2payme', 'scan2payme_option_IBAN', $iban_args );
 
+    $showhook_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showhook', 'default' => 'woocommerce_order_details_after_order_table' );
+    register_setting( 'scan2payme', 'scan2payme_option_showhook', $showhook_args ); // default: woocommerce_order_details_after_order_table
+
     $showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
-    //$showwhenstatus_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme_option_sanitize_showwhenstatus', 'default' => 'on-hold' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenstatus', $showwhenstatus_args ); // default: on-hold
 
     $showwhenmethod_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showwhenmethod', 'default' => 'bacs' );
@@ -95,21 +122,19 @@ function scan2payme_extension_settings_init() {
     register_setting( 'scan2payme', 'scan2payme_option_textunder', $textunder_args);
     register_setting( 'scan2payme', 'scan2payme_option_logo');
 
-    // Register a new section in the page.
+    // BIC, Name and IBAN
     add_settings_section(
-        'scan2payme_section_requiredfields',
-        __( 'Scan2Pay Me required fields', 'scan2payme' ), 'scan2payme\scan2payme_section_requiredfields_callback',
+        'scan2payme_section_bankingdetailsfields',
+        __( 'Scan2Pay Me banking details fields', 'scan2payme' ), 'scan2payme\scan2payme_section_bankingdetailsfields_callback',
         'scan2payme'
     );
 
-    // BIC, Name and IBAN are required fields.
-    // Register these fields in the section "required fields"
     add_settings_field(
         'scan2payme_option_BIC',
             __( 'BIC', 'scan2payme' ),
         'scan2payme\scan2payme_option_BIC_cb',
         'scan2payme',
-        'scan2payme_section_requiredfields',
+        'scan2payme_section_bankingdetailsfields',
         array(
             'label_for'         => 'scan2payme_option_BIC',
             'class'             => 'scan2payme_row',
@@ -122,7 +147,7 @@ function scan2payme_extension_settings_init() {
             __( 'Name', 'scan2payme' ),
         'scan2payme\scan2payme_option_Name_cb',
         'scan2payme',
-        'scan2payme_section_requiredfields',
+        'scan2payme_section_bankingdetailsfields',
         array(
             'label_for'         => 'scan2payme_option_Name',
             'class'             => 'scan2payme_row',
@@ -135,12 +160,19 @@ function scan2payme_extension_settings_init() {
             __( 'IBAN', 'scan2payme' ),
         'scan2payme\scan2payme_option_IBAN_cb',
         'scan2payme',
-        'scan2payme_section_requiredfields',
+        'scan2payme_section_bankingdetailsfields',
         array(
             'label_for'         => 'scan2payme_option_IBAN',
             'class'             => 'scan2payme_row',
             'scan2payme_custom_data' => 'custom',
         )
+    );
+
+    // Required technical fields
+    add_settings_section(
+        'scan2payme_section_requiredfields',
+        __( 'Scan2Pay Me required fields', 'scan2payme' ), 'scan2payme\scan2payme_section_requiredfields_callback',
+        'scan2payme'
     );
 
     add_settings_field(
@@ -169,13 +201,25 @@ function scan2payme_extension_settings_init() {
         )
     );
 
-    // Register a new section in the page.
+    add_settings_field(
+        'scan2payme_option_showhook',
+            __( 'Show at his position in the order overview page', 'scan2payme' ),
+        'scan2payme\scan2payme_option_showhook_cb',
+        'scan2payme',
+        'scan2payme_section_requiredfields',
+        array(
+            'label_for'         => 'scan2payme_option_showhook',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
+    );
+
+    // Optional fields
     add_settings_section(
         'scan2payme_section_optionalfields',
         __( 'Scan2Pay Me optional fields', 'scan2payme' ), 'scan2payme\scan2payme_section_optionalfields_callback',
         'scan2payme'
     );
-
 
     add_settings_field(
         'scan2payme_option_textabove',
@@ -221,10 +265,15 @@ function scan2payme_extension_settings_init() {
  */
 add_action( 'admin_init', 'scan2payme\scan2payme_extension_settings_init' );
 
+function scan2payme_section_bankingdetailsfields_callback( $args ) {
+    ?>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Your banking details.', 'scan2payme' ); ?></p>
+    <?php
+}
 
 function scan2payme_section_requiredfields_callback( $args ) {
     ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'There is no validation implemented yet!', 'scan2payme' ); ?></p>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Required fields.', 'scan2payme' ); ?></p>
     <?php
 }
 
@@ -277,6 +326,22 @@ function scan2payme_option_showwhenmethod_cb( $args ) {
         <option value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>"><?php echo isset( $options ) ? esc_attr( $options ) : ''; ?></option>
     </select>
     
+    <?php
+}
+
+function scan2payme_option_showhook_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_showhook' );
+    ?>
+    <select name="scan2payme_option_showhook">
+        <option value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>"><?php echo isset( $options ) ? esc_attr( $options ) : ''; ?></option>
+        <option value="woocommerce_order_details_after_customer_details">woocommerce_order_details_after_customer_details</option>
+        <option value="woocommerce_order_details_after_order_table">woocommerce_order_details_after_order_table</option>
+        <option value="woocommerce_order_details_after_order_table_items">woocommerce_order_details_after_order_table_items</option>
+        <option value="woocommerce_order_details_before_order_table">woocommerce_order_details_before_order_table</option>
+        <option value="woocommerce_order_details_before_order_table_items">woocommerce_order_details_before_order_table_items</option>
+        <option value="woocommerce_after_order_details">woocommerce_after_order_details</option>
+    </select>
     <?php
 }
 
