@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Scan2Pay Me\n"
-"POT-Creation-Date: 2023-08-03 19:22+0200\n"
-"PO-Revision-Date: 2023-08-03 19:23+0200\n"
+"POT-Creation-Date: 2023-10-22 12:55+0200\n"
+"PO-Revision-Date: 2023-10-22 13:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -15,51 +15,101 @@ msgstr ""
 "X-Poedit-SearchPath-0: scan2payme.php\n"
 "X-Poedit-SearchPath-1: scan2payme-admin.php\n"
 
-#: scan2payme-admin.php:51
-msgid "Scan2Pay Me required fields"
-msgstr "Scan2Pay Me Pflichtfelder"
+#: scan2payme-admin.php:25
+msgid "IBAN invalid! Must be shorter than 34 symbols!"
+msgstr "IBAN muss kleiner als 34 Zeichen beinhalten!"
 
-#: scan2payme-admin.php:59
+#: scan2payme-admin.php:30
+msgid "IBAN invalid! First two symbol must be country identifier!"
+msgstr "Die ersten zwei Zeichen des IBAN müssen ein Länderkennzeichen sein!"
+
+#: scan2payme-admin.php:37
+msgid "IBAN invalid! Account part can only contain numbers!"
+msgstr "Kontoinformation im IBAN darf nur aus Ziffern bestehen!"
+
+#: scan2payme-admin.php:56
+msgid "BIC invalid! Must be 8 or 11 symbols long!"
+msgstr "BIC muss zwischen 8 und 11 Zeichen beinhalten!"
+
+#: scan2payme-admin.php:70
+msgid "Selected status invalid!"
+msgstr "Gewählter Status ungültig!"
+
+#: scan2payme-admin.php:81
+msgid "Selected payment method invalid!"
+msgstr "Gewählte Bezahlmethode ungültig!"
+
+#: scan2payme-admin.php:92
+msgid "Selected hook invalid!"
+msgstr "Gewählter hook ist ungültig!"
+
+#: scan2payme-admin.php:128
+msgid "Scan2Pay Me preview"
+msgstr "Scan2Pay Me Vorschau"
+
+#: scan2payme-admin.php:135
+msgid "Scan2Pay Me banking details fields"
+msgstr "Scan2Pay Me Kontoinformationen"
+
+#: scan2payme-admin.php:141
 msgid "BIC"
 msgstr "BIC"
 
-#: scan2payme-admin.php:72
+#: scan2payme-admin.php:154
 msgid "Name"
 msgstr "Name"
 
-#: scan2payme-admin.php:85
+#: scan2payme-admin.php:167
 msgid "IBAN"
 msgstr "IBAN"
 
-#: scan2payme-admin.php:98
+#: scan2payme-admin.php:181
+msgid "Scan2Pay Me required fields"
+msgstr "Scan2Pay Me Pflichtfelder"
+
+#: scan2payme-admin.php:187
 msgid "Show when order is in status"
 msgstr "Code in diesem Bestellstatus zeigen"
 
-#: scan2payme-admin.php:111
+#: scan2payme-admin.php:200
 msgid "Show when method is"
 msgstr "Code bei dieser Bezahlmethode zeigen"
 
-#: scan2payme-admin.php:125
+#: scan2payme-admin.php:213
+msgid "Show at his position in the order overview page"
+msgstr "Position des Codes auf der Bestellansichtseite"
+
+#: scan2payme-admin.php:227
 msgid "Scan2Pay Me optional fields"
 msgstr "Scan2Pay Me optionale Felder"
 
-#: scan2payme-admin.php:132
+#: scan2payme-admin.php:233
 msgid "textabove"
 msgstr "Text darüber"
 
-#: scan2payme-admin.php:145
+#: scan2payme-admin.php:246
 msgid "textunder"
 msgstr "Text darunter"
 
-#: scan2payme-admin.php:158
+#: scan2payme-admin.php:259
 msgid "logo"
 msgstr "Logo"
 
-#: scan2payme-admin.php:177
-msgid "There is no validation implemented yet!"
-msgstr "Noch keine Validierregeln implementiert!"
+#: scan2payme-admin.php:277
+msgid "Show preview QR Code with order id 919 and total 49.99 euro."
+msgstr ""
+"Der Vorschaucode enthält als Testwerte die Bestellnummer 919 und eine "
+"Rechnungssumme von 49,99 Euro."
 
-#: scan2payme-admin.php:183
+#: scan2payme-admin.php:297
+msgid "Your banking details."
+msgstr "Ihre Bankkontoinformationen."
+
+#: scan2payme-admin.php:303
+msgid "Required fields."
+msgstr "Pflichtfelder."
+
+#: scan2payme-admin.php:309
 msgid ""
 "Optional fields. Provide your users with information about how you want them "
 "to use the code."
@@ -67,6 +117,13 @@ msgstr ""
 "Optionale Felder. Informieren Sie ihre Users wie sie mit dem Code umgehen "
 "sollen."
 
-#: scan2payme-admin.php:264
+#: scan2payme-admin.php:414
+msgid "(no logo)"
+msgstr "(keines)"
+
+#: scan2payme-admin.php:433
 msgid "Settings Saved"
 msgstr "Einstellungen gespeichert"
+
+#~ msgid "There is no validation implemented yet!"
+#~ msgstr "Noch keine Validierregeln implementiert!"

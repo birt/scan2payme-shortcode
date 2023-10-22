@@ -122,6 +122,13 @@ function scan2payme_extension_settings_init() {
     register_setting( 'scan2payme', 'scan2payme_option_textunder', $textunder_args);
     register_setting( 'scan2payme', 'scan2payme_option_logo');
 
+    // preview
+    add_settings_section(
+        'scan2payme_section_preview',
+        __( 'Scan2Pay Me preview', 'scan2payme' ), 'scan2payme\scan2payme_section_preview_callback',
+        'scan2payme'
+    );
+
     // BIC, Name and IBAN
     add_settings_section(
         'scan2payme_section_bankingdetailsfields',
@@ -264,6 +271,26 @@ function scan2payme_extension_settings_init() {
  * Register our cec_settings_init to the admin_init action hook.
  */
 add_action( 'admin_init', 'scan2payme\scan2payme_extension_settings_init' );
+
+function scan2payme_section_preview_callback($args){
+        ?>
+        <p><?php esc_html_e( 'Show preview QR Code with order id 919 and total 49.99 euro.', 'scan2payme' ); ?></p>
+        <?php
+        $option_textabove = get_option('scan2payme_option_textabove');
+        $option_textunder = get_option('scan2payme_option_textunder');
+        $epc_version = "001";
+        $epc_encoding = "1";
+        $epc_identity = "SCT";
+        $epc_bic = get_option( 'scan2payme_option_BIC' );
+        $epc_name = get_option( 'scan2payme_option_Name' );
+        $epc_iban = get_option( 'scan2payme_option_IBAN' );
+        $epc_total = "EUR49.99";
+        $epc_use = "";
+        $epc_ref = "919";
+        $epc_textref = "";
+        $epc_hint = "";
+        generate_and_output_qr_code($option_textabove, $option_textunder, $epc_version, $epc_encoding, $epc_identity, $epc_bic, $epc_name, $epc_iban, $epc_total, $epc_use, $epc_ref, $epc_textref, $epc_hint);
+}
 
 function scan2payme_section_bankingdetailsfields_callback( $args ) {
     ?>

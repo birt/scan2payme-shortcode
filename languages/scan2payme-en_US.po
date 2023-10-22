@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Scan2Pay Me\n"
-"POT-Creation-Date: 2023-08-03 19:22+0200\n"
-"PO-Revision-Date: 2023-08-03 19:23+0200\n"
+"POT-Creation-Date: 2023-10-22 12:54+0200\n"
+"PO-Revision-Date: 2023-10-22 12:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -15,58 +15,99 @@ msgstr ""
 "X-Poedit-SearchPath-0: scan2payme.php\n"
 "X-Poedit-SearchPath-1: scan2payme-admin.php\n"
 
-#: scan2payme-admin.php:51
-msgid "Scan2Pay Me required fields"
-msgstr "Scan2Pay Me required fields"
+#: scan2payme-admin.php:25
+msgid "IBAN invalid! Must be shorter than 34 symbols!"
+msgstr "IBAN invalid! Must be shorter than 34 symbols!"
 
-#: scan2payme-admin.php:59
+#: scan2payme-admin.php:30
+msgid "IBAN invalid! First two symbol must be country identifier!"
+msgstr "IBAN invalid! First two symbol must be country identifier!"
+
+#: scan2payme-admin.php:37
+msgid "IBAN invalid! Account part can only contain numbers!"
+msgstr "IBAN invalid! Account part can only contain numbers!"
+
+#: scan2payme-admin.php:56
+msgid "BIC invalid! Must be 8 or 11 symbols long!"
+msgstr "BIC invalid! Must be 8 or 11 symbols long!"
+
+#: scan2payme-admin.php:70
+msgid "Selected status invalid!"
+msgstr "Selected status invalid!"
+
+#: scan2payme-admin.php:81
+msgid "Selected payment method invalid!"
+msgstr "Selected payment method invalid!"
+
+#: scan2payme-admin.php:92
+msgid "Selected hook invalid!"
+msgstr "Selected hook invalid!"
+
+#: scan2payme-admin.php:128
+#| msgid "Scan2Pay Me required fields"
+msgid "Scan2Pay Me preview"
+msgstr "Scan2Pay Me preview"
+
+#: scan2payme-admin.php:135
+#| msgid "Scan2Pay Me optional fields"
+msgid "Scan2Pay Me banking details fields"
+msgstr "Scan2Pay Me banking details fields"
+
+#: scan2payme-admin.php:141
 msgid "BIC"
 msgstr "BIC"
 
-#: scan2payme-admin.php:72
+#: scan2payme-admin.php:154
 msgid "Name"
 msgstr "Name"
 
-#: scan2payme-admin.php:85
+#: scan2payme-admin.php:167
 msgid "IBAN"
 msgstr "IBAN"
 
-#: scan2payme-admin.php:98
+#: scan2payme-admin.php:181
+msgid "Scan2Pay Me required fields"
+msgstr "Scan2Pay Me required fields"
+
+#: scan2payme-admin.php:187
 msgid "Show when order is in status"
 msgstr "Show when order is in status"
 
-#: scan2payme-admin.php:111
+#: scan2payme-admin.php:200
 msgid "Show when method is"
 msgstr "Show when method is"
 
-#: scan2payme-admin.php:125
+#: scan2payme-admin.php:213
+msgid "Show at his position in the order overview page"
+msgstr "Show at his position in the order overview page"
+
+#: scan2payme-admin.php:227
 msgid "Scan2Pay Me optional fields"
 msgstr "Scan2Pay Me optional fields"
 
-#: scan2payme-admin.php:132
+#: scan2payme-admin.php:233
 msgid "textabove"
 msgstr "textabove"
 
-#: scan2payme-admin.php:145
+#: scan2payme-admin.php:246
 msgid "textunder"
 msgstr "textunder"
 
-#: scan2payme-admin.php:158
+#: scan2payme-admin.php:259
 msgid "logo"
 msgstr "logo"
 
-#: scan2payme-admin.php:177
-msgid "There is no validation implemented yet!"
-msgstr "There is no validation implemented yet!"
+#: scan2payme-admin.php:414
+#| msgid "logo"
+msgid "(no logo)"
+msgstr "(no logo)"
 
-#: scan2payme-admin.php:183
-msgid ""
-"Optional fields. Provide your users with information about how you want them "
-"to use the code."
-msgstr ""
-"Optional fields. Provide your users with information about how you want them "
-"to use the code."
-
-#: scan2payme-admin.php:264
+#: scan2payme-admin.php:433
 msgid "Settings Saved"
 msgstr "Settings Saved"
+
+#~ msgid "There is no validation implemented yet!"
+#~ msgstr "There is no validation implemented yet!"
+
+#~ msgid "Optional fields. Provide your users with information about how you want them to use the code."
+#~ msgstr "Optional fields. Provide your users with information about how you want them to use the code."
