@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== scan2payme ===
 Contributors: a.waldherr@gmail.com
 Donate link: 
 Tags: payment, qr code, bank transfer
-Requires at least: 6.0
-Tested up to: 6.0
-Stable tag: 6.0
+Requires at least: 6.4
+Tested up to: 6.4
+Stable tag: 1.0.0
 Requires PHP: 8.0
 License: MIT
 License URI: https://opensource.org/license/mit/

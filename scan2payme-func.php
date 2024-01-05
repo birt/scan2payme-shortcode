@@ -58,9 +58,9 @@ function generate_and_output_qr_code($option_textabove, $option_textunder, $epc_
     ?>
     <section class="woocommerce-columns woocommerce-columns--1">
             <div class="woocommerce-column woocommerce-column--1 col-1">
-                <span style="display:block;text-align:center;"><?php echo $text_above_display; ?></span>
-                <img style="display:block;margin:auto;" src="<?php echo $imgData; ?>" alt="<?php echo $qrdata; ?>" />
-                <span style="display:block;text-align:center;"><?php echo $text_under_display; ?></span>
+                <span style="display:block;text-align:center;"><?php echo esc_html($text_above_display); ?></span>
+                <img style="display:block;margin:auto;" src="<?php echo esc_url($imgData); ?>" alt="<?php echo esc_html($qrdata); ?>" />
+                <span style="display:block;text-align:center;"><?php echo esc_html($text_under_display); ?></span>
             </div><!-- /.col-1 -->
     </section>
     <?php

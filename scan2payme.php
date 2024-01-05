@@ -15,9 +15,10 @@ for more details.
  * Version: 1.0.0
  * Author: Andreas Waldherr (a.waldherr@gmail.com)
  * Author URI: https://github.com/awaldherr
+ * License: MIT
  * Text Domain: scan2payme
  * Domain Path: /languages/
- * Requires at least: 6.0
+ * Requires at least: 6.4
  * Requires PHP: 8.0
  *
  * @package SCAN2PAYME
