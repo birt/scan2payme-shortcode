@@ -96,6 +96,14 @@ function scan2payme_option_sanitize_showhook($input){
     }
 }
 
+function scan2payme_option_sanitize_textabove($input){
+    return strip_tags($input);
+}
+
+function scan2payme_option_sanitize_textunder($input){
+    return strip_tags($input);
+}
+
 /**
  * custom option and settings
  */
@@ -116,9 +124,9 @@ function scan2payme_extension_settings_init() {
     $showwhenmethod_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_showwhenmethod', 'default' => 'bacs' );
     register_setting( 'scan2payme', 'scan2payme_option_showwhenmethod', $showwhenmethod_args ); // default: bacs
 
-    $textabove_args = array( 'type' => 'string', 'default' => 'Scan2Pay Me' );
+    $textabove_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_textabove', 'default' => 'Scan2Pay Me' );
     register_setting( 'scan2payme', 'scan2payme_option_textabove', $textabove_args);
-    $textunder_args = array( 'type' => 'string', 'default' => 'Scan this QR code with your banking app to initiate a bank transfer.' );
+    $textunder_args = array( 'type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_textunder', 'default' => 'Scan this QR code with your banking app to initiate a bank transfer.' );
     register_setting( 'scan2payme', 'scan2payme_option_textunder', $textunder_args);
     register_setting( 'scan2payme', 'scan2payme_option_logo');
 

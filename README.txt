@@ -4,7 +4,7 @@ Donate link:
 Tags: payment, qr code, bank transfer
 Requires at least: 6.4
 Tested up to: 6.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 8.0
 License: MIT
 License URI: https://opensource.org/license/mit/
