@@ -137,11 +137,24 @@ function scan2payme_extension_settings_init() {
         'scan2payme'
     );
 
-    // BIC, Name and IBAN
+    // WooCommerce BACS account, or BIC, Name and IBAN
     add_settings_section(
         'scan2payme_section_bankingdetailsfields',
         __( 'Scan2Pay Me banking details fields', 'scan2payme' ), 'scan2payme\scan2payme_section_bankingdetailsfields_callback',
         'scan2payme'
+    );
+
+    add_settings_field(
+        'scan2payme_option_account',
+            __( 'WoCommerce account', 'scan2payme' ),
+        'scan2payme\scan2payme_option_account_cb',
+        'scan2payme',
+        'scan2payme_section_bankingdetailsfields',
+        array(
+            'label_for'         => 'scan2payme_option_account',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
     );
 
     add_settings_field(
@@ -315,6 +328,36 @@ function scan2payme_section_requiredfields_callback( $args ) {
 function scan2payme_section_optionalfields_callback( $args ) {
     ?>
     <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Optional fields. Provide your users with information about how you want them to use the code.', 'scan2payme' ); ?></p>
+    <?php
+}
+
+function scan2payme_option_account_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $selected_option = get_option( 'scan2payme_option_account' );
+
+    $woocommerce_accounts  = get_option( 'woocommerce_bacs_accounts');
+
+    $options = array();
+    if($woocommerce_accounts != false){
+        // provide all accounts in the woocommerce setting as options
+        for($i = 0; $i < sizeof($woocommerce_accounts); $i++ ){
+            $name = $woocommerce_accounts[$i]['account_name'];
+            $options[] = $name;
+        }
+    }
+    $options[] = '(none)';
+
+    ?>
+    <select name="scan2payme_option_account">
+        <?php
+        foreach($options as $opt){
+        ?>
+            <option value="<?php echo isset( $opt ) ? esc_attr( $opt ) : ''; ?>"><?php echo isset( $opt ) ? esc_attr( $opt ) : ''; ?></option>
+        <?php
+        }
+        ?>
+    </select>
+    
     <?php
 }
 

@@ -1,7 +1,7 @@
 === scan2payme ===
 Contributors: a.waldherr@gmail.com
 Donate link: 
-Tags: payment, qr code, bank transfer
+Tags: payment, qr code, bank transfer, girocode
 Requires at least: 6.4
 Tested up to: 6.4
 Stable tag: 1.0.1
@@ -19,6 +19,9 @@ This plugin generates QR-Codes containing the banking details of your shop and d
 
 = 1.0 =
 * Initial release.
+
+= 1.0.1 =
+* You can now directly use the BACS accounts from WooCommerce
 
 == European Payment Council (EPC) QR-Code ==
 
