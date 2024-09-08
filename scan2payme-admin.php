@@ -146,7 +146,7 @@ function scan2payme_extension_settings_init() {
 
     add_settings_field(
         'scan2payme_option_account',
-            __( 'WoCommerce account', 'scan2payme' ),
+            __( 'WooCommerce account', 'scan2payme' ),
         'scan2payme\scan2payme_option_account_cb',
         'scan2payme',
         'scan2payme_section_bankingdetailsfields',
@@ -231,7 +231,7 @@ function scan2payme_extension_settings_init() {
 
     add_settings_field(
         'scan2payme_option_showhook',
-            __( 'Show at his position in the order overview page', 'scan2payme' ),
+            __( 'Show at this position in the order overview page', 'scan2payme' ),
         'scan2payme\scan2payme_option_showhook_cb',
         'scan2payme',
         'scan2payme_section_requiredfields',

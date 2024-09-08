@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Scan2Pay Me\n"
-"POT-Creation-Date: 2023-10-22 12:55+0200\n"
-"PO-Revision-Date: 2023-10-22 13:03+0200\n"
+"POT-Creation-Date: 2024-09-08 12:04+0200\n"
+"PO-Revision-Date: 2024-09-08 12:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -43,73 +43,81 @@ msgstr "Gewählte Bezahlmethode ungültig!"
 msgid "Selected hook invalid!"
 msgstr "Gewählter hook ist ungültig!"
 
-#: scan2payme-admin.php:128
+#: scan2payme-admin.php:136
 msgid "Scan2Pay Me preview"
 msgstr "Scan2Pay Me Vorschau"
 
-#: scan2payme-admin.php:135
+#: scan2payme-admin.php:143
 msgid "Scan2Pay Me banking details fields"
 msgstr "Scan2Pay Me Kontoinformationen"
 
-#: scan2payme-admin.php:141
+#: scan2payme-admin.php:149
+#, fuzzy
+#| msgid "WoCommerce account"
+msgid "WooCommerce account"
+msgstr "WooCommerce Account"
+
+#: scan2payme-admin.php:162
 msgid "BIC"
 msgstr "BIC"
 
-#: scan2payme-admin.php:154
+#: scan2payme-admin.php:175
 msgid "Name"
 msgstr "Name"
 
-#: scan2payme-admin.php:167
+#: scan2payme-admin.php:188
 msgid "IBAN"
 msgstr "IBAN"
 
-#: scan2payme-admin.php:181
+#: scan2payme-admin.php:202
 msgid "Scan2Pay Me required fields"
 msgstr "Scan2Pay Me Pflichtfelder"
 
-#: scan2payme-admin.php:187
+#: scan2payme-admin.php:208
 msgid "Show when order is in status"
 msgstr "Code in diesem Bestellstatus zeigen"
 
-#: scan2payme-admin.php:200
+#: scan2payme-admin.php:221
 msgid "Show when method is"
 msgstr "Code bei dieser Bezahlmethode zeigen"
 
-#: scan2payme-admin.php:213
-msgid "Show at his position in the order overview page"
+#: scan2payme-admin.php:234
+#, fuzzy
+#| msgid "Show at his position in the order overview page"
+msgid "Show at this position in the order overview page"
 msgstr "Position des Codes auf der Bestellansichtseite"
 
-#: scan2payme-admin.php:227
+#: scan2payme-admin.php:248
 msgid "Scan2Pay Me optional fields"
 msgstr "Scan2Pay Me optionale Felder"
 
-#: scan2payme-admin.php:233
+#: scan2payme-admin.php:254
 msgid "textabove"
 msgstr "Text darüber"
 
-#: scan2payme-admin.php:246
+#: scan2payme-admin.php:267
 msgid "textunder"
 msgstr "Text darunter"
 
-#: scan2payme-admin.php:259
+#: scan2payme-admin.php:280
 msgid "logo"
 msgstr "Logo"
 
-#: scan2payme-admin.php:277
+#: scan2payme-admin.php:298
 msgid "Show preview QR Code with order id 919 and total 49.99 euro."
 msgstr ""
 "Der Vorschaucode enthält als Testwerte die Bestellnummer 919 und eine "
 "Rechnungssumme von 49,99 Euro."
 
-#: scan2payme-admin.php:297
+#: scan2payme-admin.php:318
 msgid "Your banking details."
 msgstr "Ihre Bankkontoinformationen."
 
-#: scan2payme-admin.php:303
+#: scan2payme-admin.php:324
 msgid "Required fields."
 msgstr "Pflichtfelder."
 
-#: scan2payme-admin.php:309
+#: scan2payme-admin.php:330
 msgid ""
 "Optional fields. Provide your users with information about how you want them "
 "to use the code."
@@ -117,11 +125,11 @@ msgstr ""
 "Optionale Felder. Informieren Sie ihre Users wie sie mit dem Code umgehen "
 "sollen."
 
-#: scan2payme-admin.php:414
+#: scan2payme-admin.php:465
 msgid "(no logo)"
 msgstr "(keines)"
 
-#: scan2payme-admin.php:433
+#: scan2payme-admin.php:484
 msgid "Settings Saved"
 msgstr "Einstellungen gespeichert"
 
