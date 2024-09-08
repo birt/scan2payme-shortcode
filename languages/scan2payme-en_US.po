@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Scan2Pay Me\n"
-"POT-Creation-Date: 2024-09-08 12:04+0200\n"
-"PO-Revision-Date: 2024-09-08 12:04+0200\n"
+"POT-Creation-Date: 2024-09-08 19:00+0200\n"
+"PO-Revision-Date: 2024-09-08 19:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -11,104 +11,129 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.3.2\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e\n"
 "X-Poedit-SearchPath-0: scan2payme.php\n"
 "X-Poedit-SearchPath-1: scan2payme-admin.php\n"
 
-#: scan2payme-admin.php:25
+#: scan2payme-admin.php:75
+msgid "No such WooCommerce account found."
+msgstr "No such WooCommerce account found."
+
+#: scan2payme-admin.php:92
 msgid "IBAN invalid! Must be shorter than 34 symbols!"
 msgstr "IBAN invalid! Must be shorter than 34 symbols!"
 
-#: scan2payme-admin.php:30
+#: scan2payme-admin.php:97
 msgid "IBAN invalid! First two symbol must be country identifier!"
 msgstr "IBAN invalid! First two symbol must be country identifier!"
 
-#: scan2payme-admin.php:37
+#: scan2payme-admin.php:104
 msgid "IBAN invalid! Account part can only contain numbers!"
 msgstr "IBAN invalid! Account part can only contain numbers!"
 
-#: scan2payme-admin.php:56
+#: scan2payme-admin.php:123
 msgid "BIC invalid! Must be 8 or 11 symbols long!"
 msgstr "BIC invalid! Must be 8 or 11 symbols long!"
 
-#: scan2payme-admin.php:70
+#: scan2payme-admin.php:137
 msgid "Selected status invalid!"
 msgstr "Selected status invalid!"
 
-#: scan2payme-admin.php:81
+#: scan2payme-admin.php:148
 msgid "Selected payment method invalid!"
 msgstr "Selected payment method invalid!"
 
-#: scan2payme-admin.php:92
+#: scan2payme-admin.php:159
 msgid "Selected hook invalid!"
 msgstr "Selected hook invalid!"
 
-#: scan2payme-admin.php:136
+#: scan2payme-admin.php:203
 msgid "Scan2Pay Me preview"
 msgstr "Scan2Pay Me preview"
 
-#: scan2payme-admin.php:143
+#: scan2payme-admin.php:210
 msgid "Scan2Pay Me banking details fields"
 msgstr "Scan2Pay Me banking details fields"
 
-#: scan2payme-admin.php:149
+#: scan2payme-admin.php:216
 msgid "WooCommerce account"
 msgstr "WooCommerce account"
 
-#: scan2payme-admin.php:162
+#: scan2payme-admin.php:229
 msgid "BIC"
 msgstr "BIC"
 
-#: scan2payme-admin.php:175
+#: scan2payme-admin.php:242
 msgid "Name"
 msgstr "Name"
 
-#: scan2payme-admin.php:188
+#: scan2payme-admin.php:255
 msgid "IBAN"
 msgstr "IBAN"
 
-#: scan2payme-admin.php:202
+#: scan2payme-admin.php:269
 msgid "Scan2Pay Me required fields"
 msgstr "Scan2Pay Me required fields"
 
-#: scan2payme-admin.php:208
+#: scan2payme-admin.php:275
 msgid "Show when order is in status"
 msgstr "Show when order is in status"
 
-#: scan2payme-admin.php:221
+#: scan2payme-admin.php:288
 msgid "Show when method is"
 msgstr "Show when method is"
 
-#: scan2payme-admin.php:234
+#: scan2payme-admin.php:301
 msgid "Show at this position in the order overview page"
 msgstr "Show at this position in the order overview page"
 
-#: scan2payme-admin.php:248
+#: scan2payme-admin.php:315
 msgid "Scan2Pay Me optional fields"
 msgstr "Scan2Pay Me optional fields"
 
-#: scan2payme-admin.php:254
+#: scan2payme-admin.php:321
 msgid "textabove"
 msgstr "text above the QR-Code"
 
-#: scan2payme-admin.php:267
+#: scan2payme-admin.php:334
 msgid "textunder"
 msgstr "text under the QR-Code"
 
-#: scan2payme-admin.php:280
+#: scan2payme-admin.php:347
 msgid "logo"
 msgstr "logo"
 
-#: scan2payme-admin.php:465
+#: scan2payme-admin.php:365
+msgid "Show preview QR Code with order id 919 and total 49.99 euro."
+msgstr "Show preview QR Code with order id 919 and total 49.99 euro."
+
+#: scan2payme-admin.php:388
+msgid "Your banking details."
+msgstr "Your banking details."
+
+#: scan2payme-admin.php:394
+msgid "Required fields."
+msgstr "Required fields."
+
+#: scan2payme-admin.php:400
+msgid ""
+"Optional fields. Provide your users with information about how you want them "
+"to use the code."
+msgstr ""
+"Optional fields. Provide your users with information about how you want them "
+"to use the code."
+
+#: scan2payme-admin.php:433
+msgid "(none)"
+msgstr "(None)"
+
+#: scan2payme-admin.php:540
 msgid "(no logo)"
 msgstr "(no logo)"
 
-#: scan2payme-admin.php:484
+#: scan2payme-admin.php:559
 msgid "Settings Saved"
 msgstr "Settings Saved"
 
 #~ msgid "There is no validation implemented yet!"
 #~ msgstr "There is no validation implemented yet!"
-
-#~ msgid "Optional fields. Provide your users with information about how you want them to use the code."
-#~ msgstr "Optional fields. Provide your users with information about how you want them to use the code."

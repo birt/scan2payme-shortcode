@@ -3,8 +3,8 @@ Contributors: awaldherr
 Donate link: 
 Tags: woocommerce, payment, qr code, bank transfer, girocode
 Requires at least: 6.4
-Tested up to: 6.4
-Stable tag: 1.0.2
+Tested up to: 6.6.1
+Stable tag: 1.0.3
 Requires PHP: 8.0
 License: MIT
 License URI: https://opensource.org/license/mit/
@@ -42,6 +42,11 @@ By default, the reference number in the transfer will be equal to the WooCommerc
 = 1.0.2 =
 * added some screenshots
 * fixed errors in README.txt
+
+= 1.0.3 =
+* 
+* added logo for plugin directory
+* fixed typos in settings page
 
 == European Payment Council (EPC) QR-Code ==
 

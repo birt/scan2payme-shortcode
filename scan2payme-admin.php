@@ -16,6 +16,73 @@ function scan2payme_extension_options_page() {
 }
 add_action( 'admin_menu', 'scan2payme\scan2payme_extension_options_page' );
 
+/**
+ * Add Javascript to settings page
+ */
+add_action( 'admin_enqueue_scripts', 'scan2payme\scan2payme_enqueue_scripts' );
+function scan2payme_enqueue_scripts( $hook ) {
+   if ( 'toplevel_page_scan2payme' !== $hook ) {
+      return;
+   }
+
+   wp_enqueue_script(
+      'scan2payme-admin-script',
+      plugins_url( '/js/scan2payme-admin.js', __FILE__ ),
+      array( 'jquery' ),
+      '1.0.0',
+      true
+   );
+
+   $account_nonce = wp_create_nonce( 'scan2payme-account-nonce' );
+   wp_localize_script(
+      'scan2payme-admin-script',
+      'my_ajax_obj',
+      array(
+         'ajax_url' => admin_url( 'admin-ajax.php' ),
+         'nonce'    => $account_nonce,
+      )
+   );
+}
+
+/**
+ * Register ajax handlers
+ */
+add_action( 'wp_ajax_scan2payme_option_account_changed', 'scan2payme\ajax_scan2payme_option_account_changed_handler' );
+function ajax_scan2payme_option_account_changed_handler() {
+    check_ajax_referer( 'scan2payme-account-nonce' );
+    $changed_to = wp_unslash( $_POST['changed_to'] );
+    
+    $return_obj = null;
+    $changed_to_obj = null;
+    $woocommerce_accounts  = get_option( 'woocommerce_bacs_accounts');
+    if($woocommerce_accounts != false){
+        for($i = 0; $i < sizeof($woocommerce_accounts); $i++ ){
+            $name = $woocommerce_accounts[$i]['account_name'];
+            if($name == $changed_to){
+                $changed_to_obj = $woocommerce_accounts[$i];
+                break;
+            }
+        }
+    }
+
+    if($changed_to_obj != null) {
+        $return_obj = array();
+        $return_obj['error'] = false;
+        $return_obj['name'] = $changed_to_obj['account_name'];
+        $return_obj['iban'] = $changed_to_obj['iban'];
+        $return_obj['bic'] = $changed_to_obj['bic'];
+    } else {
+        wp_send_json(array('error' => true, 'message' => __('No such WooCommerce account found.'))); // DOES THIS WORK IN AJAX HANDLER?
+        wp_die();
+    }
+
+    wp_send_json($return_obj);
+    wp_die();
+}
+
+/**
+ * field sanitize callbacks
+ */
 function scan2payme_option_sanitize_IBAN($input){
     $input = strtoupper($input);
     $old = get_option( 'scan2payme_option_IBAN' );
@@ -289,7 +356,7 @@ function scan2payme_extension_settings_init() {
     );
 }
 /**
- * Register our cec_settings_init to the admin_init action hook.
+ * Register our scan2payme_extension_settings_init callback to the admin_init action hook.
  */
 add_action( 'admin_init', 'scan2payme\scan2payme_extension_settings_init' );
 
@@ -313,6 +380,9 @@ function scan2payme_section_preview_callback($args){
         generate_and_output_qr_code($option_textabove, $option_textunder, $epc_version, $epc_encoding, $epc_identity, $epc_bic, $epc_name, $epc_iban, $epc_total, $epc_use, $epc_ref, $epc_textref, $epc_hint);
 }
 
+/**
+ * section callbacks
+ */
 function scan2payme_section_bankingdetailsfields_callback( $args ) {
     ?>
     <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Your banking details.', 'scan2payme' ); ?></p>
@@ -331,6 +401,9 @@ function scan2payme_section_optionalfields_callback( $args ) {
     <?php
 }
 
+/**
+ * option callbacks
+ */
 function scan2payme_option_account_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $selected_option = get_option( 'scan2payme_option_account' );
@@ -345,17 +418,19 @@ function scan2payme_option_account_cb( $args ) {
             $options[] = $name;
         }
     }
-    $options[] = '(none)';
 
     ?>
-    <select name="scan2payme_option_account">
+    <select name="scan2payme_option_account" id="scan2payme_option_account">
         <?php
         foreach($options as $opt){
+            $val = $opt;
         ?>
-            <option value="<?php echo isset( $opt ) ? esc_attr( $opt ) : ''; ?>"><?php echo isset( $opt ) ? esc_attr( $opt ) : ''; ?></option>
+            <option value="<?php echo isset( $val ) ? esc_attr( $val ) : ''; ?>"><?php echo isset( $opt ) ? esc_attr( $opt ) : ''; ?></option>
         <?php
         }
         ?>
+
+        <option value="OPTION_ACCOUNT_NONE"><? esc_html_e( '(none)', 'scan2payme' ); ?></option>
     </select>
     
     <?php
@@ -365,7 +440,7 @@ function scan2payme_option_BIC_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $options = get_option( 'scan2payme_option_BIC' );
     ?>
-    <input type="text" name="scan2payme_option_BIC" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <input type="text" class="scan2payme_account_setting" name="scan2payme_option_BIC" id="scan2payme_option_BIC" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
     <?php
 }
 
@@ -373,7 +448,7 @@ function scan2payme_option_Name_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $options = get_option( 'scan2payme_option_Name' );
     ?>
-    <input type="text" name="scan2payme_option_Name" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <input type="text" class="scan2payme_account_setting" name="scan2payme_option_Name" id="scan2payme_option_Name" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
     <?php
 }
 
@@ -381,7 +456,7 @@ function scan2payme_option_IBAN_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $options = get_option( 'scan2payme_option_IBAN' );
     ?>
-    <input type="text" name="scan2payme_option_IBAN" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <input type="text" class="scan2payme_account_setting" name="scan2payme_option_IBAN" id="scan2payme_option_IBAN" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
     <?php
 }
 
