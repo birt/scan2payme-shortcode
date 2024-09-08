@@ -44,7 +44,7 @@ By default, the reference number in the transfer will be equal to the WooCommerc
 * fixed errors in README.txt
 
 = 1.0.3 =
-* 
+* instantly show banking details when selecting a WooCommerce BACS account in settings
 * added logo for plugin directory
 * fixed typos in settings page
 
