@@ -176,6 +176,9 @@ function scan2payme_option_sanitize_textunder($input){
  */
 function scan2payme_extension_settings_init() {
     // Register a new setting for page.
+    register_setting( 'scan2payme', 'scan2payme_option_PreviewMessage' );
+    register_setting( 'scan2payme', 'scan2payme_option_PreviewAmount' );
+
     $bic_args = array ('type' => 'string', 'sanitize_callback' => 'scan2payme\scan2payme_option_sanitize_BIC');
     register_setting( 'scan2payme', 'scan2payme_option_BIC', $bic_args );
     register_setting( 'scan2payme', 'scan2payme_option_Name' );
@@ -202,6 +205,32 @@ function scan2payme_extension_settings_init() {
         'scan2payme_section_preview',
         __( 'Scan2Pay Me preview', 'scan2payme' ), 'scan2payme\scan2payme_section_preview_callback',
         'scan2payme'
+    );
+
+    add_settings_field(
+        'scan2payme_option_PreviewMessage',
+        __( 'Preview message', 'scan2payme' ),
+        'scan2payme\scan2payme_option_PreviewMessage_cb',
+        'scan2payme',
+        'scan2payme_section_preview',
+        array(
+            'label_for'         => 'scan2payme_option_PreviewMessage',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
+    );
+
+    add_settings_field(
+        'scan2payme_option_PreviewAmount',
+        __( 'Preview amount', 'scan2payme' ),
+        'scan2payme\scan2payme_option_PreviewAmount_cb',
+        'scan2payme',
+        'scan2payme_section_preview',
+        array(
+            'label_for'         => 'scan2payme_option_PreviewAmount',
+            'class'             => 'scan2payme_row',
+            'scan2payme_custom_data' => 'custom',
+        )
     );
 
     // WooCommerce BACS account, or BIC, Name and IBAN
@@ -360,9 +389,20 @@ function scan2payme_extension_settings_init() {
  */
 add_action( 'admin_init', 'scan2payme\scan2payme_extension_settings_init' );
 
+/**
+ * section callbacks
+ */
 function scan2payme_section_preview_callback($args){
+        $option_previewmessage = get_option( 'scan2payme_option_PreviewMessage' );
+        if(!$option_previewmessage){
+            $option_previewmessage = "order id 919";
+        }
+        $option_previewamount = get_option( 'scan2payme_option_PreviewAmount' );
+        if(!$option_previewamount){
+            $option_previewamount = "EUR49.99";
+        }
         ?>
-        <p><?php esc_html_e( 'Show preview QR Code with order id 919 and total 49.99 euro.', 'scan2payme' ); ?></p>
+        <p><?php esc_html_e( 'Show preview QR Code with message '.$option_previewmessage.' and total amount '.$option_previewamount.'.', 'scan2payme' ); ?></p>
         <?php
         $option_textabove = get_option('scan2payme_option_textabove');
         $option_textunder = get_option('scan2payme_option_textunder');
@@ -372,17 +412,14 @@ function scan2payme_section_preview_callback($args){
         $epc_bic = get_option( 'scan2payme_option_BIC' );
         $epc_name = get_option( 'scan2payme_option_Name' );
         $epc_iban = get_option( 'scan2payme_option_IBAN' );
-        $epc_total = "EUR49.99";
+        $epc_total = $option_previewamount; 
         $epc_use = "";
-        $epc_ref = "919";
+        $epc_ref = $option_previewmessage;
         $epc_textref = "";
         $epc_hint = "";
         generate_and_output_qr_code($option_textabove, $option_textunder, $epc_version, $epc_encoding, $epc_identity, $epc_bic, $epc_name, $epc_iban, $epc_total, $epc_use, $epc_ref, $epc_textref, $epc_hint);
 }
 
-/**
- * section callbacks
- */
 function scan2payme_section_bankingdetailsfields_callback( $args ) {
     ?>
     <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Your banking details.', 'scan2payme' ); ?></p>
@@ -404,6 +441,28 @@ function scan2payme_section_optionalfields_callback( $args ) {
 /**
  * option callbacks
  */
+function scan2payme_option_PreviewMessage_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_PreviewMessage' );
+    if(!isset($options)){
+        $options = "order id 919";
+    }
+    ?>
+    <input type="text" class="scan2payme_account_setting" name="scan2payme_option_PreviewMessage" id="scan2payme_option_PreviewMessage" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <?php
+}
+
+function scan2payme_option_PreviewAmount_cb( $args ) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option( 'scan2payme_option_PreviewAmount' );
+    if(!isset($options)){
+        $options = "EUR49.99";
+    }
+    ?>
+    <input type="text" class="scan2payme_account_setting" name="scan2payme_option_PreviewAmount" id="scan2payme_option_PreviewAmount" value="<?php echo isset( $options ) ? esc_attr( $options ) : ''; ?>">
+    <?php
+}
+
 function scan2payme_option_account_cb( $args ) {
     // Get the value of the setting we've registered with register_setting()
     $selected_option = get_option( 'scan2payme_option_account' );

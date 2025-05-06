@@ -3,8 +3,8 @@ Contributors: awaldherr
 Donate link: 
 Tags: woocommerce, payment, qr code, bank transfer, girocode
 Requires at least: 6.4
-Tested up to: 6.6.1
-Stable tag: 1.0.3
+Tested up to: 6.7.1
+Stable tag: 1.0.4
 Requires PHP: 8.0
 License: MIT
 License URI: https://opensource.org/license/mit/
@@ -47,6 +47,12 @@ By default, the reference number in the transfer will be equal to the WooCommerc
 * instantly show banking details when selecting a WooCommerce BACS account in settings
 * added logo for plugin directory
 * fixed typos in settings page
+
+= 1.0.4 =
+* ported to WP 6.7.1
+
+= 1.0.5 =
+* made amount and message of preview code configurable
 
 == European Payment Council (EPC) QR-Code ==
 

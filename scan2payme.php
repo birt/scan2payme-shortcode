@@ -12,7 +12,7 @@ for more details.
  * Plugin Name: scan2payme
  * Plugin URI: https://github.com/awaldherr/scan2payme
  * Description: Show EPC payment qr code on the order confirmation page
- * Version: 1.0.1
+ * Version: 1.0.5
  * Author: Andreas Waldherr (a.waldherr@gmail.com)
  * Author URI: https://github.com/awaldherr
  * License: MIT
