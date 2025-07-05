@@ -90,30 +90,7 @@ if (
         }
         return 40; // 40 is highest possible version
     }
-  /**
- * Shortcode to display Scan2PayMe QR code for the current order in loop context.
- */
-function scan2payme_qr_shortcode( $atts ) {
-    if ( ! function_exists('scan2payme_output_qr') ) {
-        return '<!-- Scan2PayMe plugin not active -->';
-    }
-
-    $atts = shortcode_atts( [
-        'order_id' => 0,
-    ], $atts, 'scan2payme_qr' );
-
-    $order_id = intval( $atts['order_id'] );
-    if ( ! $order_id && is_wc_endpoint_url( 'order-received' ) ) {
-        $order_id = absint( get_query_var( 'order-received' ) );
-    }
-
-    if ( ! $order_id ) {
-        return '<!-- No order ID found -->';
-    }
-
-    return scan2payme_output_qr( $order_id );
-}
-
+  
     function scan2payme_extension_action_show_code() {
         $order_id = absint( get_query_var('view-order') );
         $order = new \WC_Order($order_id);
@@ -159,5 +136,31 @@ function scan2payme_qr_shortcode( $atts ) {
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-func.php';
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
 }
+
+/**
+ * Shortcode to display Scan2PayMe QR code for the current order in loop context.
+ */
+function scan2payme_qr_shortcode( $atts ) {
+    if ( ! function_exists('scan2payme_output_qr') ) {
+        return '<!-- Scan2PayMe plugin not active -->';
+    }
+
+    $atts = shortcode_atts( [
+        'order_id' => 0,
+    ], $atts, 'scan2payme_qr' );
+
+    $order_id = intval( $atts['order_id'] );
+    if ( ! $order_id && is_wc_endpoint_url( 'order-received' ) ) {
+        $order_id = absint( get_query_var( 'order-received' ) );
+    }
+
+    if ( ! $order_id ) {
+        return '<!-- No order ID found -->';
+    }
+
+    return scan2payme_output_qr( $order_id );
+}
+
+
 add_shortcode( 'scan2payme_qr', 'scan2payme_qr_shortcode' );
 ?>
