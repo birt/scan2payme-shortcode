@@ -9,10 +9,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See LICENSE
 for more details.
 
- * Plugin Name: scan2payme
- * Plugin URI: https://github.com/awaldherr/scan2payme
- * Description: Show EPC payment qr code on the order confirmation page
- * Version: 1.0.5
+ * Plugin Name: scan2payme-shortcode
+ * Plugin URI: https://github.com/birt/scan2payme-shortcode
+ * Description: Show EPC payment qr code on the order confirmation page with a shortcode added
+ * Version: 0.0.1
  * Author: Andreas Waldherr (a.waldherr@gmail.com)
  * Author URI: https://github.com/awaldherr
  * License: MIT
