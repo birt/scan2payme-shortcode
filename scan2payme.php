@@ -159,5 +159,5 @@ function scan2payme_qr_shortcode( $atts ) {
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-func.php';
     include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
 }
-
+add_shortcode( 'scan2payme_qr', 'scan2payme_qr_shortcode' );
 ?>
