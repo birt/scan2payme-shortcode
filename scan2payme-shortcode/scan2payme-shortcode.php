@@ -129,13 +129,11 @@ if (
         generate_and_output_qr_code($option_textabove, $option_textunder, $epc_version, $epc_encoding, $epc_identity, $epc_bic, $epc_name, $epc_iban, $epc_total, $epc_use, $epc_ref, $epc_textref, $epc_hint);
     }
     
+
+
     // TODO does the default value work if this is a fresh installation?
     add_action( get_option('scan2payme_option_showhook'), 'scan2payme\scan2payme_extension_action_show_code' ); 
 
-    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/LogoQRImage.php';
-    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-func.php';
-    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
-}
 
 /**
  * Shortcode to display Scan2PayMe QR code for the current order in loop context.
@@ -161,6 +159,13 @@ function scan2payme_qr_shortcode( $atts ) {
     return scan2payme_output_qr( $order_id );
 }
 
+    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/LogoQRImage.php';
+    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-func.php';
+    include_once dirname( SCAN2PAYME_PLUGIN_FILE ) . '/scan2payme-admin.php';
+    add_shortcode( 'scan2payme_qr', 'scan2payme_qr_shortcode' );
+}
 
-add_shortcode( 'scan2payme_qr', 'scan2payme_qr_shortcode' );
+
+
+
 ?>
