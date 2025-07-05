@@ -1,0 +1,30 @@
+name: Build and Release Plugin Zip
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # triggers on version tags like v1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout plugin repo
+        uses: actions/checkout@v3
+
+      - name: Set plugin folder name
+        id: vars
+        run: echo "PLUGIN_SLUG=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+
+      - name: Create ZIP file
+        run: |
+          cd $PLUGIN_SLUG
+          zip -r ../${PLUGIN_SLUG}.zip . -x "*.git*" -x "*.DS_Store"
+
+      - name: Upload ZIP as Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.PLUGIN_SLUG }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
